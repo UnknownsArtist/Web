@@ -3,7 +3,7 @@
 
  # V1.0
 
- -Inicio de la web
+ - Inicio de la web
 
  # V2.0
 
