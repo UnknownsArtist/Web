@@ -191,10 +191,10 @@ const tituloPrincipal = document.querySelector('#titulo-principal');
 let botonesAgregar = document.querySelectorAll('.producto-agregar');
 const numerito = document.querySelector('#numerito');
 
-
-function cargargarProductos(productosElegidos) {
+function cargarProductos(productosElegidos) {
 
     contenedorProductos.innerHTML = '';
+    
     productosElegidos.forEach(productos => {
 
         const div = document.createElement('div');
@@ -213,7 +213,7 @@ function cargargarProductos(productosElegidos) {
     actualizarBotonesAgregar();
 }
 
-cargargarProductos(productos);
+cargarProductos(productos);
 
 botonesCategorias.forEach(boton => {
     boton.addEventListener('click', (e) => {
@@ -224,25 +224,31 @@ botonesCategorias.forEach(boton => {
         if (e.currentTarget.id != 'todos') {
             const productoCategoria = productos.find(producto => producto.categoria.id === e.currentTarget.id);
             tituloPrincipal.innerText = 'Estas viendo' + ' ' + productoCategoria.categoria.nombre;
-
             const productosBoton = productos.filter(producto => producto.categoria.id === e.currentTarget.id);
-            cargargarProductos(productosBoton);
+            cargarProductos(productosBoton);
         } else {
             tituloPrincipal.innerText = 'Todos los productos';
-            cargargarProductos(productos);
+            cargarProductos(productos);
         }
     })
 })
 
 function actualizarBotonesAgregar() {
-    botonesAgregar = document.querySelectorAll('.producto-agregar');
+    botonesAgregar = document.querySelectorAll(".producto-agregar");
 
     botonesAgregar.forEach(boton => {
         boton.addEventListener("click", agregarAlCarrito);
     });
 }
 
-const productosEnCarrito = [];
+let productosEnCarrito;
+let productosEnCarritoLS = localStorage.getItem("productos-en-carrito");
+if (productosEnCarritoLS) {
+    productosEnCarrito = JSON.parse(productosEnCarritoLS);
+    actualizarNumerito();
+} else {
+    productosEnCarrito = [];
+}
 
 function agregarAlCarrito(e) {
 
@@ -266,4 +272,3 @@ function actualizarNumerito() {
     let nuevoNumerito = productosEnCarrito.reduce((acc, producto) => acc + producto.cantidad, 0);
     numerito.innerText = nuevoNumerito;
 }
-
